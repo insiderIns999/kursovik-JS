@@ -78,3 +78,5 @@ export function onAddPostClick({ description, imageUrl }) {
       .then(() => goToPage(POSTS_PAGE))
 },
 */
+
+//Для проверки коммита
