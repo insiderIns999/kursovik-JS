@@ -1,8 +1,9 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+import { posts, goToPage } from "../main.js";
+import { format } from "date-fns";
 
-let posts = [];
+//let posts = [];
 
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
@@ -23,8 +24,9 @@ export function renderPostsPageComponent({ appEl }) {
   // post date 19 минут назад
   let like;
 
-  const appHtml = posts.map((post) => {
-    return `
+  const appHtml = posts
+    .map((post) => {
+      return `
     <li class="post">
       <div class="post-header" data-user-id="${post.user.id}">
           <img src="${post.user.imageUrl}" class="post-header__user-image">
@@ -38,7 +40,7 @@ export function renderPostsPageComponent({ appEl }) {
           <img src="./assets/images/like-active.svg">
         </button>
         <p class="post-likes-text">
-          Нравится: <strong>${post.(likes.length)}</strong>
+          Нравится: <strong>${post.user.name}</strong>
         </p>
       </div>
       <p class="post-text">
@@ -46,11 +48,12 @@ export function renderPostsPageComponent({ appEl }) {
         ${post.description}.
       </p>
       <p class="post-date">
-        ${post.createdAt}
+        ${format(post.createdAt)}
       </p>
     </li>
-    `; 
-  }).join('');
+    `;
+    })
+    .join("");
 
   /*
   `
