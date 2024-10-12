@@ -1,3 +1,4 @@
+import { getToken } from './main.js';
 // Замени на свой, чтобы получить независимый от других набор данных.
 // "боевая" версия инстапро лежит в ключе prod
 const personalKey = "prod";
@@ -68,13 +69,44 @@ export function uploadImage({ file }) {
     return response.json();
   });
 }
-/*
+
 export function onAddPostClick({ description, imageUrl }) {
   addPost({ token: getToken(), description, imageUrl })
-      .then(newPosts => {
-          updatePosts(newPosts)
-          renderApp()
-      })
-      .then(() => goToPage(POSTS_PAGE))
-},
-*/
+    .then(newPosts => {
+        updatePosts(newPosts)
+        renderApp()
+    })
+    .then(() => goToPage(POSTS_PAGE))
+}
+
+export function like(id) {
+  return fetch(postsHost + `/${id}/like`, {
+    method: "POST",
+    headers: {
+      Authorization: getToken()
+    }
+  })
+  .then((response) => {
+    if (response.status === 500) throw new Error ('Ошибка сервера');
+    if (response.status === 401) throw new Error ('Вы не авторизовались');
+    return response;
+  })
+  .then((responseData) => responseData.json())
+}
+
+export function dislike(id) {
+  return fetch(postsHost + `/${id}/dislike`, {
+    method: "POST",
+    headers: {
+      Authorization: getToken()
+    }
+  })
+  .then((response) => {
+    if (response.status === 500) throw new Error ('Ошибка сервера');
+    if (response.status === 401) throw new Error ('Вы не авторизовались');
+    return response;
+  })
+  .then((responseData) => responseData.json())
+}
+
+//Для проверки коммита

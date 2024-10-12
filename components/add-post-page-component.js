@@ -47,3 +47,5 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 
   render();
 }
+
+// Для проверки коммита
