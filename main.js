@@ -1,4 +1,4 @@
-import { getPosts } from "./api.js";
+import { dislike, like, getPosts } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -20,10 +20,27 @@ export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
 
-const getToken = () => {
+export const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
   return token;
 };
+
+const toggleLike = (id) => {
+  const index = posts.findIndex((post) => post.id === id);
+  if(posts[index].isLikes) {
+    dislike(id).then((updatedPost) => {
+      posts[index].likes = updatedPost.post.likes;
+      posts[index].isLiked = false;
+    })
+  }
+  else {
+    like(id).then((updatedPost) => {
+      posts[index].likes = updatedPost.post.likes;
+      posts[index].isLiked = true;
+    })
+  }
+  renderApp();
+}
 
 export const logout = () => {
   user = null;
@@ -120,7 +137,7 @@ const renderApp = () => {
 
   if (page === POSTS_PAGE) {
     return renderPostsPageComponent({
-      appEl,
+      appEl, toggleLike: toggleLike
     });
   }
 
