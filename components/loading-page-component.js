@@ -10,10 +10,11 @@ export function renderLoadingPageComponent({ appEl, user, goToPage }) {
               </div>`;
 
   appEl.innerHTML = appHtml;
-
+/*
   renderHeaderComponent({
     user,
     element: document.querySelector(".header-container"),
     goToPage,
   });
+  */
 }
